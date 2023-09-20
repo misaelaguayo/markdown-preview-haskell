@@ -9,7 +9,6 @@ main :: IO ()
 main = do
     -- handle <- openFile "../src/assets/TEST.md" ReadMode
     -- contents <- hGetContents handle
-    -- BS.writeFile "../src/assets/TEST.sixel" (generateSixel contents)
     let sixelString = "q\
         \#0;2;0;0;0#1;2;100;100;0#2;2;0;100;0\
         \#1~~@@vv@@~~$\
@@ -20,5 +19,5 @@ main = do
 generateSixel :: String -> ByteString
 generateSixel bitmap = BS.concat [header, body, footer]
     where header = BS.pack [0x1b, 0x50] -- ESC P
-          body = BS.pack (Prelude.map (\x -> fromIntegral (ord x)) bitmap) -- ESC X 1 0 0 0 0
+          body = BS.pack (Prelude.map (fromIntegral . ord) bitmap) -- convert bitmap to bytestring
           footer = BS.pack [0x1b, 0x5c] -- ESC \
