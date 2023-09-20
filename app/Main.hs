@@ -10,7 +10,7 @@ main = do
     -- handle <- openFile "../src/assets/TEST.md" ReadMode
     -- contents <- hGetContents handle
     let sixelDataHead = "1;2;3q#0;2;0;0;0#1;2;100;100;0#2;2;0;100;0"
-    let sixelString = sixelDataHead ++ convertAlphabetToSixel alphabetBitMap
+    let sixelString = sixelDataHead ++ convertAlphabetToSixel alphabetBitMap 6
     BS.putStr (generateSixel sixelString)
 
 generateSixel :: String -> ByteString
@@ -153,10 +153,10 @@ alphabetBitMap = [a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u,
                              [False, True, False, False, False],
                              [True, True, True, True, True]]
 
-convertLetterToSixel :: [[Bool]] -> String
-convertLetterToSixel letter = Prelude.concat (Prelude.map convertRowToSixel letter)
+convertLetterToSixel :: [[Bool]] -> Int -> String
+convertLetterToSixel letter scale= Prelude.concat (Prelude.map convertRowToSixel letter)
     where convertRowToSixel row = "#1" ++ Prelude.concat (Prelude.map convertPixelToSixel row) ++ "$-"
-          convertPixelToSixel pixel = if pixel then "~" else "?"
+          convertPixelToSixel pixel = if pixel then "!" ++ show scale ++ "~" else "!" ++ show scale ++ "?"
 
-convertAlphabetToSixel :: [[[Bool]]] -> String
-convertAlphabetToSixel alphabet = Prelude.concat (Prelude.map convertLetterToSixel alphabet)
+convertAlphabetToSixel :: [[[Bool]]] -> Int -> String
+convertAlphabetToSixel alphabet scale = Prelude.concat (Prelude.map (\l -> convertLetterToSixel l scale) alphabet)
