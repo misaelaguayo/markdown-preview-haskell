@@ -12,7 +12,12 @@ import Data.List.Split (splitOn)
 
 latexStr :: String -> String
 latexStr str = 
-    "\\documentclass{article}\n"
+    "\\documentclass[a4paper]{article}\n"
+    ++ "\\oddsidemargin=0pt\n"
+    ++ "\\headsep=0pt\n"
+    ++ "\\headheight=0pt\n"
+    ++ "\\topmargin=0pt\n"
+    ++ "\\topmargin=-1in\n"
     ++ "\\begin{document}\n"
     ++ str
     ++ "\\end{document}\n"
@@ -23,7 +28,7 @@ latexToSixel str = do
     let sixelDir = dir ++ "/sixel"
     writeFile (sixelDir ++ "/sixel.tex") (latexStr str)
     (_, _, _) <- readProcessWithExitCode "pdflatex" ["-output-directory=" ++ sixelDir, sixelDir ++ "/sixel.tex"] ""
-    (_, _, _) <- readProcessWithExitCode "gs" ["-dSAFER", "-r75", "-sDEVICE=png16m", "-o", sixelDir ++ "/sixel.png", sixelDir ++ "/sixel.pdf"] ""
+    (_, _, _) <- readProcessWithExitCode "convert" [sixelDir ++ "/sixel.pdf", sixelDir ++ "/sixel.png"] ""
     let createSixelCommand = "convert " ++ sixelDir ++ "/sixel.png ppm:- | ppmquant 16 | ppmtosixel -margin > " ++ sixelDir ++ "/sixel.sixel"
     readCreateProcessWithExitCode (shell createSixelCommand) ""
     >>= \(_, _, _) -> return ()
