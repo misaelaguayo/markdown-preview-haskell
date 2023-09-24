@@ -21,7 +21,10 @@ description:         Please see the README on GitHub at <https://github.com/misa
 
 dependencies:
 - base >= 4.7 && < 5
-- bytestring
+- temporary
+- process
+- split
+- directory
 
 ghc-options:
 - -Wall
