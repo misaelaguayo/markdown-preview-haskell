@@ -9,6 +9,8 @@ module Lib
 import System.Directory (getCurrentDirectory)
 import System.Process (readProcessWithExitCode, readCreateProcessWithExitCode, shell)
 import Data.List.Split (splitOn)
+import Data.ByteString as BS
+import System.IO (openFile, hGetContents, IOMode(ReadMode))
 
 latexStr :: String -> String
 latexStr str = 
@@ -32,24 +34,25 @@ latexToSixel :: String -> IO ()
 latexToSixel str = do
     dir <- getCurrentDirectory
     let sixelDir = dir ++ "/sixel"
-    writeFile (sixelDir ++ "/sixel.tex") (latexStr str)
+    Prelude.writeFile (sixelDir ++ "/sixel.tex") (latexStr str)
     (_, _, _) <- readProcessWithExitCode "pdflatex" ["-output-directory=" ++ sixelDir, sixelDir ++ "/sixel.tex"] ""
     (_, _, _) <- readProcessWithExitCode "convert" [sixelDir ++ "/sixel.pdf", sixelDir ++ "/sixel.png"] ""
     let createSixelCommand = "convert " ++ sixelDir ++ "/sixel.png ppm:- | ppmtosixel > " ++ sixelDir ++ "/sixel.sixel"
-    readCreateProcessWithExitCode (shell createSixelCommand) ""
-    >>= \(_, _, _) -> return ()
+    (_, _, _ ) <- readCreateProcessWithExitCode (shell createSixelCommand) ""
+    contents <- BS.readFile (sixelDir ++ "/sixel.sixel")
+    BS.putStr contents
 
 prettify :: String -> (Float, String)
 prettify contents
-    | headerSize splitSentence > 0 = (headerSize splitSentence, unwords (drop 1 splitSentence))
+    | headerSize splitSentence > 0 = (headerSize splitSentence, unwords (Prelude.drop 1 splitSentence))
     | otherwise = (0, contents)
     where splitSentence = splitOn " " contents
 
 headerSize :: [String] -> Float
 headerSize splitSentence
-    | head splitSentence == "#" = 4
-    | head splitSentence == "##" = 2.5
-    | head splitSentence == "##" = 2
+    | Prelude.head splitSentence == "#" = 4
+    | Prelude.head splitSentence == "##" = 2.5
+    | Prelude.head splitSentence == "##" = 2
     | otherwise = 0
 
 someFunc :: IO ()

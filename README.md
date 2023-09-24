@@ -14,3 +14,11 @@
 - Run `pdflatex` program with latex file input to convert to pdf
 - run ImageMagic `convert` to convert pdf into png
 - Run ImageMagic `convert` to convert png into sixel
+
+## Requirements
+
+- latex
+- ImageMagick
+- Stack
+- netpbm
+
