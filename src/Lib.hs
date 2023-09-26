@@ -10,15 +10,15 @@ import System.Directory (getCurrentDirectory)
 import System.Process (readProcessWithExitCode, readCreateProcessWithExitCode, shell)
 import Data.List.Split (splitOn)
 import Data.ByteString as BS
-import System.IO (openFile, hGetContents, IOMode(ReadMode))
 
 latexStr :: String -> String
 latexStr str = 
-    "\\documentclass[a4paper]{article}\n"
+    "\\documentclass[14pt]{extreport}\n"
+    ++ "\\usepackage[a3paper]{geometry}\n"
     ++ "\\usepackage{titlesec}\n"
-    ++ "\\titleformat*{\\section}{\\LARGE\\bfseries}\n"
-    ++ "\\titleformat*{\\subsection}{\\Large\\bfseries}\n"
-    ++ "\\titleformat*{\\subsubsection}{\\large\\bfseries}\n"
+    ++ "\\titleformat*{\\section}{\\Huge\\bfseries}\n"
+    ++ "\\titleformat*{\\subsection}{\\LARGE\\bfseries}\n"
+    ++ "\\titleformat*{\\subsubsection}{\\Large\\bfseries}\n"
     ++ "\\titleformat*{\\paragraph}{\\large\\bfseries}\n"
     ++ "\\titleformat*{\\subparagraph}{\\large\\bfseries}\n"
     ++ "\\oddsidemargin=0pt\n"

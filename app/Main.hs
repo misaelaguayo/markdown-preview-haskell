@@ -1,7 +1,7 @@
 module Main (main) where
 import Data.List.Split (splitOn)
 import System.IO (openFile, hGetContents, IOMode(ReadMode))
-import Lib (latexStr, latexToSixel)
+import Lib ( latexToSixel)
 
 main :: IO ()
 main = do
@@ -17,7 +17,7 @@ convertMarkdownToLatex' :: [String] -> String
 convertMarkdownToLatex' [] = ""
 convertMarkdownToLatex' (x:xs)
     | x == "" = convertMarkdownToLatex' xs
-    | head x == '#' = (handleHeader x) ++ convertMarkdownToLatex' xs
+    | head x == '#' = handleHeader x ++ convertMarkdownToLatex' xs
     | otherwise = x ++ "\n" ++ convertMarkdownToLatex' xs
 
 handleHeader :: String -> String
@@ -31,7 +31,7 @@ handleHeader str =
         _ -> str ++ "\n"
     where splitHeader = splitOn " " str
           headerSize = case head splitHeader of
-              "#" -> 1
+              "#" -> (1 :: Integer)
               "##" -> 2
               "###" -> 3
               "####" -> 4
