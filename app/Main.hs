@@ -18,7 +18,12 @@ convertMarkdownToLatex' [] = ""
 convertMarkdownToLatex' (x:xs)
     | x == "" = convertMarkdownToLatex' xs
     | head x == '#' = handleHeader x ++ convertMarkdownToLatex' xs
+    | head x == '-' = handleBullet x ++ convertMarkdownToLatex' xs
     | otherwise = x ++ "\n" ++ convertMarkdownToLatex' xs
+
+handleBullet :: String -> String
+handleBullet str = 
+    "\\begin{itemize}\n\\item " ++ unwords (drop 1 (splitOn " " str)) ++ "\n\\end{itemize}\n"
 
 handleHeader :: String -> String
 handleHeader str = 
