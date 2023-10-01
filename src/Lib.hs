@@ -1,8 +1,8 @@
 module Lib
-    ( someFunc,
-      latexStr,
+    ( latexStr,
       latexToSixel,
       prettify,
+      handleHeader,
       headerSize
     ) where
 
@@ -55,5 +55,22 @@ headerSize splitSentence
     | Prelude.head splitSentence == "##" = 2
     | otherwise = 0
 
-someFunc :: IO ()
-someFunc = putStrLn "someFunc"
+handleHeader :: String -> String
+handleHeader str = 
+    case headerSize of
+        1 -> "\\section*{" ++ parsedHeader ++ "}\n"
+        2 -> "\\subsection*{" ++ parsedHeader ++ "}\n"
+        3 -> "\\subsubsection*{" ++ parsedHeader ++ "}\n"
+        4 -> "\\paragraph*{" ++ parsedHeader ++ "}\n"
+        5 -> "\\subparagraph*{" ++ parsedHeader ++ "}\n"
+        _ -> str ++ "\n"
+    where splitHeader = splitOn " " str
+          headerSize = case Prelude.head splitHeader of
+              "#" -> (1 :: Integer)
+              "##" -> 2
+              "###" -> 3
+              "####" -> 4
+              "#####" -> 5
+              "######" -> 6
+              _ -> 0
+          parsedHeader = unwords (Prelude.drop 1 splitHeader)

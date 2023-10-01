@@ -1,7 +1,6 @@
-module Main (main) where
-import Data.List.Split (splitOn)
 import System.IO (openFile, hGetContents, IOMode(ReadMode))
-import Lib ( latexToSixel)
+import Data.List.Split (splitOn)
+import Lib ( latexToSixel, handleHeader)
 
 main :: IO ()
 main = do
@@ -24,23 +23,3 @@ convertMarkdownToLatex' (x:xs)
 handleBullet :: String -> String
 handleBullet str = 
     "\\begin{itemize}\n\\item " ++ unwords (drop 1 (splitOn " " str)) ++ "\n\\end{itemize}\n"
-
-handleHeader :: String -> String
-handleHeader str = 
-    case headerSize of
-        1 -> "\\section*{" ++ parsedHeader ++ "}\n"
-        2 -> "\\subsection*{" ++ parsedHeader ++ "}\n"
-        3 -> "\\subsubsection*{" ++ parsedHeader ++ "}\n"
-        4 -> "\\paragraph*{" ++ parsedHeader ++ "}\n"
-        5 -> "\\subparagraph*{" ++ parsedHeader ++ "}\n"
-        _ -> str ++ "\n"
-    where splitHeader = splitOn " " str
-          headerSize = case head splitHeader of
-              "#" -> (1 :: Integer)
-              "##" -> 2
-              "###" -> 3
-              "####" -> 4
-              "#####" -> 5
-              "######" -> 6
-              _ -> 0
-          parsedHeader = unwords (drop 1 splitHeader)
