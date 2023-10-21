@@ -1,6 +1,5 @@
 import System.IO (openFile, hGetContents, IOMode(ReadMode))
-import Data.List.Split (splitOn)
-import Lib ( latexToSixel, handleHeader)
+import Lib ( latexToSixel, handleBullet, handleHeader)
 
 main :: IO ()
 main = do
@@ -19,7 +18,3 @@ convertMarkdownToLatex' (x:xs)
     | head x == '#' = handleHeader x ++ convertMarkdownToLatex' xs
     | head x == '-' = handleBullet x ++ convertMarkdownToLatex' xs
     | otherwise = x ++ "\n" ++ convertMarkdownToLatex' xs
-
-handleBullet :: String -> String
-handleBullet str = 
-    "\\begin{itemize}\n\\item " ++ unwords (drop 1 (splitOn " " str)) ++ "\n\\end{itemize}\n"

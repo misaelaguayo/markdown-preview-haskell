@@ -2,6 +2,7 @@ module Lib
     ( latexStr,
       latexToSixel,
       handleHeader,
+      handleBullet,
     ) where
 
 import System.Directory (getCurrentDirectory)
@@ -39,6 +40,10 @@ latexToSixel str = do
     (_, _, _ ) <- readCreateProcessWithExitCode (shell createSixelCommand) ""
     contents <- BS.readFile (sixelDir ++ "/sixel.sixel")
     BS.putStr contents
+
+handleBullet :: String -> String
+handleBullet str = 
+    "\\begin{itemize}\n\\item " ++ unwords (Prelude.drop 1 (splitOn " " str)) ++ "\n\\end{itemize}\n"
 
 handleHeader :: String -> String
 handleHeader str = 
