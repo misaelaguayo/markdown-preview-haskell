@@ -17,6 +17,7 @@
 
 ## Requirements
 
+- A terminal which supports sixel
 - latex
 - ImageMagick
 - Stack
