@@ -1,9 +1,7 @@
 module Lib
     ( latexStr,
       latexToSixel,
-      prettify,
       handleHeader,
-      headerSize
     ) where
 
 import System.Directory (getCurrentDirectory)
@@ -41,19 +39,6 @@ latexToSixel str = do
     (_, _, _ ) <- readCreateProcessWithExitCode (shell createSixelCommand) ""
     contents <- BS.readFile (sixelDir ++ "/sixel.sixel")
     BS.putStr contents
-
-prettify :: String -> (Float, String)
-prettify contents
-    | headerSize splitSentence > 0 = (headerSize splitSentence, unwords (Prelude.drop 1 splitSentence))
-    | otherwise = (0, contents)
-    where splitSentence = splitOn " " contents
-
-headerSize :: [String] -> Float
-headerSize splitSentence
-    | Prelude.head splitSentence == "#" = 4
-    | Prelude.head splitSentence == "##" = 2.5
-    | Prelude.head splitSentence == "##" = 2
-    | otherwise = 0
 
 handleHeader :: String -> String
 handleHeader str = 
