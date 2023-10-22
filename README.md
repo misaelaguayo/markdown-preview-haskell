@@ -28,4 +28,3 @@ Convert a markdown file and display in terminal using sixels
 - ImageMagick
 - Stack
 - netpbm
-
