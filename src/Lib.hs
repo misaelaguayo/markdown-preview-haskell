@@ -5,7 +5,7 @@ module Lib
       handleBullet,
     ) where
 
-import System.Directory (getCurrentDirectory)
+import System.Directory (getCurrentDirectory, createDirectoryIfMissing)
 import System.Process (readProcessWithExitCode, readCreateProcessWithExitCode, shell)
 import Data.List.Split (splitOn)
 import Data.ByteString as BS
@@ -31,6 +31,7 @@ latexStr str =
 
 latexToSixel :: String -> IO ()
 latexToSixel str = do
+    createDirectoryIfMissing False "sixel"
     dir <- getCurrentDirectory
     let sixelDir = dir ++ "/sixel"
     Prelude.writeFile (sixelDir ++ "/sixel.tex") (latexStr str)
