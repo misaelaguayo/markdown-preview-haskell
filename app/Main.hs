@@ -1,9 +1,12 @@
+import System.Environment
 import System.IO (openFile, hGetContents, IOMode(ReadMode))
 import Lib ( latexToSixel, handleBullet, handleHeader)
 
 main :: IO ()
 main = do
-    handle <- openFile "README.md" ReadMode
+    args <- getArgs
+    let file = head args
+    handle <- openFile file ReadMode
     contents <- hGetContents handle
     latexToSixel (convertMarkdownToLatex contents)
 
