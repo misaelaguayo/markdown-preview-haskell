@@ -23,8 +23,9 @@ Convert a markdown file and display in terminal using sixels
 
 ## Requirements
 
-- A terminal which supports sixel
+- A [terminal](https://www.arewesixelyet.com/) which supports sixel
 - latex
 - ImageMagick
 - Stack
 - netpbm
+- libsixel

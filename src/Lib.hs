@@ -36,8 +36,8 @@ latexToSixel str = do
     let sixelDir = dir ++ "/sixel"
     Prelude.writeFile (sixelDir ++ "/sixel.tex") (latexStr str)
     (_, _, _) <- readProcessWithExitCode "pdflatex" ["-output-directory=" ++ sixelDir, sixelDir ++ "/sixel.tex"] ""
-    (_, _, _) <- readProcessWithExitCode "convert" [sixelDir ++ "/sixel.pdf", sixelDir ++ "/sixel.png"] ""
-    let createSixelCommand = "convert " ++ sixelDir ++ "/sixel.png ppm:- | ppmtosixel > " ++ sixelDir ++ "/sixel.sixel"
+    (_, _, _) <- readProcessWithExitCode "convert" [sixelDir ++ "/sixel.pdf", sixelDir ++ "/sixel.jpeg"] ""
+    let createSixelCommand = "img2sixel " ++ sixelDir ++ "/sixel.jpeg > " ++ sixelDir ++ "/sixel.sixel"
     (_, _, _ ) <- readCreateProcessWithExitCode (shell createSixelCommand) ""
     contents <- BS.readFile (sixelDir ++ "/sixel.sixel")
     BS.putStr contents
