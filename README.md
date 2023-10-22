@@ -1,5 +1,11 @@
 # markdown-preview-haskell
 
+Convert a markdown file and display in terminal using sixels
+
+## Use
+
+`stack run [name-of-markdown]`
+
 ## Setup
 
 - `stack build` to compile program
