@@ -37,9 +37,9 @@ latexToSixel str = do
     Prelude.writeFile (sixelDir ++ "/sixel.tex") (latexStr str)
     (_, _, _) <- readProcessWithExitCode "pdflatex" ["-output-directory=" ++ sixelDir, sixelDir ++ "/sixel.tex"] ""
     (_, _, _) <- readProcessWithExitCode "convert" [sixelDir ++ "/sixel.pdf", sixelDir ++ "/sixel.jpeg"] ""
-    let createSixelCommand = "img2sixel " ++ sixelDir ++ "/sixel.jpeg > " ++ sixelDir ++ "/sixel.sixel"
+    let createSixelCommand = "chafa --stretch " ++ sixelDir ++ "/sixel.jpeg > " ++ sixelDir ++ "/sixel"
     (_, _, _ ) <- readCreateProcessWithExitCode (shell createSixelCommand) ""
-    contents <- BS.readFile (sixelDir ++ "/sixel.sixel")
+    contents <- BS.readFile (sixelDir ++ "/sixel")
     BS.putStr contents
 
 handleBullet :: String -> String

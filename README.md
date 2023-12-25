@@ -18,14 +18,13 @@ Convert a markdown file and display in terminal using sixels
 - Convert scanned markdown into latex string
 - Output latex string into temporary file
 - Run `pdflatex` program with latex file input to convert to pdf
-- run ImageMagic `convert` to convert pdf into png
-- Run ImageMagic `convert` to convert png into sixel
+- run ImageMagic `convert` to convert pdf into jpeg
+- Run chafa to convert to either sixel or kitty
 
 ## Requirements
 
 - A [terminal](https://www.arewesixelyet.com/) which supports sixel
-- latex
-- ImageMagick
+- Install [chafa](https://github.com/hpjansson/chafa) for displaying graphics in terminal
+- Latex
 - Stack
-- netpbm
-- libsixel
+- Netpbm
