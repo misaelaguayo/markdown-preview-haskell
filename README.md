@@ -27,4 +27,5 @@ Convert a markdown file and display in terminal using sixels
 - Install [chafa](https://github.com/hpjansson/chafa) for displaying graphics in terminal
 - Latex
 - Stack
-- Netpbm
+- ImageMagick
+- GhostScript
